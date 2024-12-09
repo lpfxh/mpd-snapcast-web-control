@@ -1,0 +1,140 @@
+# Armbian MPD 和 Snapserver 配置注意事项及建议
+
+## 权限问题及解决方法
+
+### 1. 音乐文件存储路径权限
+- **路径**: `/var/lib/mpd/music`
+- **要求**: MPD 用户 (`mpd`) 必须对该目录有读取权限。
+- **解决**:
+  ```bash
+  sudo chown -R mpd:mpd /var/lib/mpd/music
+  sudo chmod -R 755 /var/lib/mpd/music
+  ```
+
+### 2. 播放列表存储路径权限
+- **路径**: `/var/lib/mpd/playlists`
+- **要求**: MPD 用户必须对该目录有读写权限。
+- **解决**:
+  ```bash
+  sudo chown -R mpd:mpd /var/lib/mpd/playlists
+  sudo chmod -R 755 /var/lib/mpd/playlists
+  ```
+
+### 3. 数据库文件路径权限
+- **路径**: `/var/lib/mpd/tag_cache`
+- **要求**: MPD 用户必须对该文件有读写权限。
+- **解决**:
+  ```bash
+  sudo chown mpd:mpd /var/lib/mpd/tag_cache
+  sudo chmod 644 /var/lib/mpd/tag_cache
+  ```
+
+### 4. 日志文件路径权限
+- **路径**: `/var/log/mpd/mpd.log`
+- **要求**: MPD 用户需要写入权限。
+- **解决**:
+  ```bash
+  sudo touch /var/log/mpd/mpd.log
+  sudo chown mpd:mpd /var/log/mpd/mpd.log
+  sudo chmod 644 /var/log/mpd/mpd.log
+  ```
+
+### 5. FIFO 文件权限
+- **路径**: `/tmp/snapfifo`
+- **要求**: MPD 和 Snapserver 用户均需对该文件有读写权限。
+- **解决**:
+  ```bash
+  sudo mkfifo /tmp/snapfifo
+  sudo chown mpd:mpd /tmp/snapfifo
+  sudo chmod 666 /tmp/snapfifo
+  ```
+
+### 6. Snapserver 日志文件权限
+- **路径**: `/var/log/snapserver.log`
+- **要求**: Snapserver 需要写入权限。
+- **解决**:
+  ```bash
+  sudo touch /var/log/snapserver.log
+  sudo chown snapserver:snapserver /var/log/snapserver.log
+  sudo chmod 644 /var/log/snapserver.log
+  ```
+
+### 7. Snapserver Web 界面文档目录权限
+- **路径**: `/usr/share/snapserver/snapweb/`
+- **要求**: 该目录需要为 Snapserver 提供只读访问权限。
+- **解决**:
+  ```bash
+  sudo chown -R root:root /usr/share/snapserver/snapweb/
+  sudo chmod -R 755 /usr/share/snapserver/snapweb/
+  ```
+
+## 安全性优化建议
+
+### 1. 使用特定用户运行服务
+- 确保 MPD 和 Snapserver 分别以 `mpd` 和 `snapserver` 用户运行。
+- 检查服务运行用户:
+  ```bash
+  ps aux | grep mpd
+  ps aux | grep snapserver
+  ```
+
+### 2. 限制网络访问范围
+- MPD 默认绑定到 `0.0.0.0`，可以改为指定的 IP 地址或使用防火墙限制。
+  ```bash
+  sudo ufw allow from 192.168.1.0/24 to any port 8000
+  ```
+
+### 3. 定期检查日志
+- 定期查看 MPD 和 Snapserver 的日志文件，排查潜在问题：
+  ```bash
+  tail -f /var/log/mpd/mpd.log
+  tail -f /var/log/snapserver.log
+  ```
+
+### 4. 自动启动服务
+- 确保 MPD 和 Snapserver 设置为系统启动时自动运行：
+  ```bash
+  sudo systemctl enable mpd
+  sudo systemctl enable snapserver
+  ```
+
+### 5. 文件系统字符集
+- 确保文件系统字符集兼容中文：
+  ```bash
+  sudo locale-gen zh_CN.UTF-8
+  ```
+
+## 问题排查
+
+### 1. FIFO 文件无法读取
+- **可能原因**: FIFO 文件未正确创建或权限不足。
+- **解决方法**:
+  ```bash
+  sudo rm /tmp/snapfifo
+  sudo mkfifo /tmp/snapfifo
+  sudo chmod 666 /tmp/snapfifo
+  ```
+
+### 2. 音频输出不正常
+- **可能原因**: 格式或缓冲设置不匹配。
+- **解决方法**: 检查 MPD 和 Snapserver 配置中的 `format` 和 `buffer`。
+
+### 3. Web 界面无法访问
+- **可能原因**: Snapserver 的 HTTP 服务未启动。
+- **解决方法**:
+  ```bash
+  sudo systemctl restart snapserver
+  ```
+
+## 备份与恢复
+- **备份配置文件**:
+  ```bash
+  sudo tar czf mpd_snapserver_backup.tar.gz /etc/mpd.conf /etc/snapserver.conf
+  ```
+- **恢复配置文件**:
+  ```bash
+  sudo tar xzf mpd_snapserver_backup.tar.gz -C /
+  ```
+
+## 总结
+通过以上步骤，可以有效确保 MPD 和 Snapserver 在 Armbian 系统上稳定运行，同时避免常见权限问题。定期检查日志和备份配置文件，是维持系统长期可靠运行的关键。
