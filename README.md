@@ -44,7 +44,7 @@ pip install -r requirements.txt
    ```bash
    sudo nano /etc/mpd.conf
    ```
-   > 配置信息已同步至 `/conf/mpd.conf`。
+   > 配置信息已同步至 `/configs/mpd.conf`。
 4. 重启 MPD 服务：
    ```bash
    sudo systemctl restart mpd
@@ -60,7 +60,7 @@ pip install -r requirements.txt
    ```bash
    sudo nano /etc/snapserver.conf
    ```
-   > 配置信息已同步至 `/conf/snapserver.conf`。
+   > 配置信息已同步至 `/configs/snapserver.conf`。
 3. 重启 Snapserver 服务：
    ```bash
    sudo systemctl restart snapserver
