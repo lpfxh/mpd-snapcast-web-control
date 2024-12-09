@@ -1,4 +1,0 @@
-Flask
-python-mpd2
-mutagen
-werkzeug
