@@ -25,26 +25,33 @@
 pip install -r requirements.txt
 
 安装 MPD
-sudo apt update
-sudo apt install -y mpd
-编辑 MPD 配置文件
-sudo nano /etc/mpd.conf
-配置信息已同步/conf/mpd.conf
-重启 MPD 服务
-bash
-复制代码
-sudo systemctl restart mpd
+-sudo apt update
+-sudo apt install -y mpd
+-编辑 MPD 配置文件
+-sudo nano /etc/mpd.conf
+-配置信息已同步/conf/mpd.conf
+-重启 MPD 服务
+-bash
+-复制代码
+-sudo systemctl restart mpd
 
-安装 Snapserver
-sudo apt install -y snapserver
-编辑 Snapserver 配置文件
-sudo nano /etc/snapserver.conf
-配置信息已同步/conf/snapserver.conf
-重启 Snapserver 服务
-sudo systemctl restart snapserver
+-安装 Snapserver
+-sudo apt install -y snapserver
+-编辑 Snapserver 配置文件
+-sudo nano /etc/snapserver.conf
+-配置信息已同步/conf/snapserver.conf
+-重启 Snapserver 服务
+-sudo systemctl restart snapserver
 
-重点配置信息都指定了管道文件夹，需要为文件夹配置权限
-权限配置信息同步到/重点/权限配置.word
+-重点配置信息都指定了管道文件夹，需要为文件夹配置权限
+-权限配置信息同步到/重点/权限配置.word
+
+运行项目
+在项目根目录下运行以下命令启动 Flask 后端服务：
+
+python3 mpd_web.py
+然后在浏览器访问：
+http://<服务器IP>:5000
 
 
 ## 安装和运行
