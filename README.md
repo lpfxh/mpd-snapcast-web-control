@@ -1,2 +1,21 @@
-# mpd-snapcast-web-control
-“一个基于MPD和Snapcast的音乐广播系统管理工具
+# MPD/Snapcast Web Control
+
+一个用于管理MPD和Snapcast的Web工具，可以实现音乐广播的上传、播放、定时等操作。
+
+## 功能特点
+- **Web界面控制：**
+  - 支持添加、删除音乐到播放列表。
+  - 定时播放功能。
+  - 多客户端同步播放。
+- **基于 Python 和 Flask：**
+  - 使用MPD和Snapcast实现音乐广播。
+  - 通过管道输出音频到Snapserver。
+
+## 截图
+![主界面截图](static/images/default.jpg)
+
+## 安装和运行
+1. 克隆项目：
+   ```bash
+   git clone https://github.com/your-username/mpd-snapcast-web-control.git
+   cd mpd-snapcast-web-control
