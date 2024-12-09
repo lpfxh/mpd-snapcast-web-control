@@ -12,7 +12,7 @@
   - 通过管道输出音频到Snapserver。
 
 ## 截图
-![主界面截图](static/images/default.jpg)
+![主界面截图](static/images/04.png)
 
 ## 安装和运行
 1. 克隆项目：
