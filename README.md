@@ -11,8 +11,7 @@
   - 使用MPD和Snapcast实现音乐广播。
   - 通过管道输出音频到Snapserver。
 
-## 截图
-![主界面截图](static/images/04.png)
+![截图描述](static/images/04.png)
 
 ## 安装和运行
 1. 克隆项目：
